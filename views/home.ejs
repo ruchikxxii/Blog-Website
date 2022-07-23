@@ -1,0 +1,22 @@
+
+<%- include('header') -%>
+<div class="center-page">
+<div class="title">
+    THE BLOG
+</div>
+    <div class="blog-heads">
+        <% for(i in blogs){ %>
+            <h1><%= blogs[i].title %></h1>
+            <h3>
+                <% let str = blogs[i].content.slice(0,250); %>
+                <% let word = blogs[i].title.split(' ').join('') %>
+                <%= str %><span class="rm" id=<%= word%>>read more ...</span>
+            </h3>
+            <hr>
+        <% } %>
+    </div>
+</div>
+<%- include('footer') %>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="/header-action.js"></script>
+<script src="/home-action.js"></script>

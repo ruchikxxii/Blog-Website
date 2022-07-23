@@ -1,0 +1,31 @@
+form{
+    display: flex;
+    flex-direction: column;
+    padding: 10% 25%;
+    align-items: center;
+}
+input{
+    font-size: 2rem;
+    margin-bottom: 5%;
+    width: 70%;
+}
+textarea{
+    font-size: 2rem;
+    margin-bottom: 5%;
+    width: 70%;
+}
+.input-con{
+    min-height: 200px;
+}
+.btn{
+    font-size: 2rem;
+    background-color: black;
+    color: white;
+    height: 3rem;
+    width: 50%;
+    border-radius: 5%;
+}
+.btn:hover{
+    background-color: white;
+    color: black;
+}
