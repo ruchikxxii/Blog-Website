@@ -16,18 +16,6 @@ app.get('/about',(req,res)=>{
     res.send('hello world')
 })
 
-app.use(exp.json())
-app.post('/redirect',(req,res)=>{
-    var route = req.body.loc
-    if(route === 'home')
-    {
-        res.redirect('/')
-    }
-    else if(route === 'about'){
-        res.redirect('/about')
-    }
-})
-
 app.get('/publish',(req,res)=>{
     res.render('publish',{})
 })
