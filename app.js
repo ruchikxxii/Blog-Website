@@ -6,10 +6,12 @@ app.set('view engine','ejs')
 app.use(exp.static('./public'))
 
 
-let blogs = require(__dirname+'/data.js')
+const {getBlogs,updateBlog} = require(__dirname+'/data.js')
 
 app.get('/',(req,res)=>{
-    res.render('home',{blogs:blogs})
+    getBlogs().then((data)=>{
+        res.render('home',{blogs:data})
+    })
 })
 
 app.get('/about',(req,res)=>{
@@ -21,7 +23,9 @@ app.get('/publish',(req,res)=>{
 })
 
 app.get('/:btitle',(req,res)=>{
-    let blog = blogs.filter((blog)=>{
+
+    getBlogs().then(blogs=>{
+        let blog = blogs.filter((blog)=>{
         let blog_name = blog.title.split(' ').join('');
         if(blog_name === req.params.btitle){
             return blog
@@ -30,6 +34,7 @@ app.get('/:btitle',(req,res)=>{
     res.render('blog-page',{
         title: blog[0].title,
         content : blog[0].content
+    })
     })
 })
 
@@ -40,20 +45,22 @@ app.post('/publish',(req,res)=>{
     let title = req.body.title
     let content = req.body.content
 
-    let blog = blogs.filter((blog)=>{
-        let blog_name = blog.title.split(' ').join('');
-        if(blog_name === title.split(' ').join('')){
-            return blog
+    getBlogs().then(blogs=>{
+        let blog = blogs.filter((blog)=>{
+            let blog_name = blog.title.split(' ').join('');
+            if(blog_name === title.split(' ').join('')){
+                return blog
+            }
+        })
+        if(blog.length>0){
+        res.sendFile(__dirname+'/public/failure.html')
+        }
+        else{
+            updateBlog({title:title,content:content}).then(()=>{
+                res.sendFile(__dirname+'/public/success.html')
+            })
         }
     })
-
-    if(blog.length>0){
-        res.sendFile(__dirname+'/public/failure.html')
-    }
-    else{
-        blogs.push({title:title,content:content})
-        res.sendFile(__dirname+'/public/success.html')
-    }
 })
 
 app.listen(3000,()=>{
